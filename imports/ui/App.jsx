@@ -87,22 +87,15 @@ const Main = React.createClass({
               hintText="What is your email?"
               floatingLabelText="Email"
             />
-            <FormsyText
-              name="age"
-              validations="isNumeric"
-              validationError={numericError}
-              hintText="Are you a wrinkly?"
-              floatingLabelText="Age (optional)"
-            />
             <FormsySelect
-              name="frequency"
+              name="age"
               required
-              floatingLabelText="How often do you?"
+              floatingLabelText="How old are you?"
               menuItems={this.selectFieldItems}
             >
-              <MenuItem value={'never'} primaryText="Never" />
-              <MenuItem value={'nightly'} primaryText="Every Night" />
-              <MenuItem value={'weeknights'} primaryText="Weeknights" />
+              <MenuItem value={'25'} primaryText="25" />
+              <MenuItem value={'25-50'} primaryText="25-50" />
+              <MenuItem value={'50+'} primaryText="50+" />
             </FormsySelect>
             <FormsyCheckbox
               name="agree"
