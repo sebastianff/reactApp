@@ -1,65 +1,125 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { Meteor } from 'meteor/meteor';
 import Formsy from 'formsy-react';
+import getMuiTheme from 'material-ui/styles/getMuiTheme'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Paper from 'material-ui/Paper';
+import RaisedButton from 'material-ui/RaisedButton';
+import MenuItem from 'material-ui/MenuItem';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
+import { FormsyCheckbox, FormsyDate, FormsyRadio, FormsyRadioGroup,
+    FormsySelect, FormsyText, FormsyTime, FormsyToggle } from 'formsy-material-ui/lib';
 
-const MyOwnInput = React.createClass({
+const Main = React.createClass({
 
-    // Add the Formsy Mixin
-    mixins: [Formsy.Mixin],
+  getInitialState() {
+    return {
+      canSubmit: false,
+    };
+  },
 
-    // setValue() will set the value of the component, which in
-    // turn will validate it and the rest of the form
-    changeValue(event) {
-      this.setValue(event.currentTarget.value);
+  errorMessages: {
+    wordsError: "Please only use letters",
+    numericError: "Please provide a number",
+    urlError: "Please provide a valid URL",
+  },
+
+  styles: {
+    paperStyle: {
+      width: 300,
+      margin: 'auto',
+      padding: 20,
     },
+    switchStyle: {
+      marginBottom: 16,
+    },
+    submitStyle: {
+      marginTop: 32,
+    },
+  },
 
-    render() {
-      // Set a specific className based on the validation
-      // state of this component. showRequired() is true
-      // when the value is empty and the required prop is
-      // passed to the input. showError() is true when the
-      // value typed is invalid
-      const className = this.showRequired() ? 'required' : this.showError() ? 'error' : null;
+  enableButton() {
+    this.setState({
+      canSubmit: true,
+    });
+  },
 
-      // An error message is returned ONLY if the component is invalid
-      // or the server has returned an error message
-      const errorMessage = this.getErrorMessage();
+  disableButton() {
+    this.setState({
+      canSubmit: false,
+    });
+  },
 
-      return (
-        <div className={className}>
-          <input type="text" onChange={this.changeValue} value={this.getValue()}/>
-          <span>{errorMessage}</span>
-        </div>
-      );
-    }
-  });
-  
-export default MyAppForm = React.createClass({
-    getInitialState() {
-      return {
-        canSubmit: false
-      }
-    },
-    enableButton() {
-      this.setState({
-        canSubmit: true
-      });
-    },
-    disableButton() {
-      this.setState({
-        canSubmit: false
-      });
-    },
-    submit(model) {
-      someDep.saveEmail(model.email);
-    },
-    render() {
-      return (
-        <Formsy.Form onValidSubmit={this.submit} onValid={this.enableButton} onInvalid={this.disableButton}>
-          <MyOwnInput name="email" validations="isEmail" validationError="This is not a valid email" required/>
-          <button type="submit" disabled={!this.state.canSubmit}>Submit</button>
-        </Formsy.Form>
-      );
-    }
-  });
+  submitForm(data) {
+    alert(JSON.stringify(data, null, 4));
+  },
+
+  notifyFormError(data) {
+    console.error('Form error:', data);
+  },
+
+  render() {
+    let {paperStyle, switchStyle, submitStyle } = this.styles;
+    let { wordsError, numericError, urlError } = this.errorMessages;
+
+    return (
+      <MuiThemeProvider muiTheme={getMuiTheme()}>
+        <Paper style={paperStyle}>
+          <Formsy.Form
+            onValid={this.enableButton}
+            onInvalid={this.disableButton}
+            onValidSubmit={this.submitForm}
+            onInvalidSubmit={this.notifyFormError}
+          >
+            <FormsyText
+              name="name"
+              validations="isWords"
+              validationError={wordsError}
+              required
+              hintText="What is your name?"
+              floatingLabelText="Name"
+            />
+            <FormsyText
+              name="email"
+              validations="isEmail"
+              validationError={wordsError}
+              required
+              hintText="What is your email?"
+              floatingLabelText="Email"
+            />
+            <FormsyText
+              name="age"
+              validations="isNumeric"
+              validationError={numericError}
+              hintText="Are you a wrinkly?"
+              floatingLabelText="Age (optional)"
+            />
+            <FormsySelect
+              name="frequency"
+              required
+              floatingLabelText="How often do you?"
+              menuItems={this.selectFieldItems}
+            >
+              <MenuItem value={'never'} primaryText="Never" />
+              <MenuItem value={'nightly'} primaryText="Every Night" />
+              <MenuItem value={'weeknights'} primaryText="Weeknights" />
+            </FormsySelect>
+            <FormsyCheckbox
+              name="agree"
+              label="Do you agree to disagree?"
+              style={switchStyle}
+            />
+            <RaisedButton
+              style={submitStyle}
+              type="submit"
+              label="Submit"
+              disabled={!this.state.canSubmit}
+            />
+          </Formsy.Form>
+        </Paper>
+      </MuiThemeProvider>
+    );
+  },
+});
+
+export default Main;
