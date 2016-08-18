@@ -8,8 +8,10 @@ import MenuItem from 'material-ui/MenuItem';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 import { Mongo } from 'meteor/mongo';
-import { Users }from '../collection.js';
+import { Users } from '../collection.js';
 import { createContainer } from 'meteor/react-meteor-data';
+import UsersList from './Users.jsx';
+
 
 import { FormsyCheckbox, FormsyDate, FormsyRadio, FormsyRadioGroup,
     FormsySelect, FormsyText, FormsyTime, FormsyToggle } from 'formsy-material-ui/lib';
@@ -63,7 +65,7 @@ const Main = React.createClass({
   },
 
   render() {
-    let {paperStyle, switchStyle, submitStyle } = this.styles;
+	let {paperStyle, switchStyle, submitStyle } = this.styles;
     let { wordsError, numericError, urlError } = this.errorMessages;
 
     return (
@@ -118,11 +120,5 @@ const Main = React.createClass({
     );
   },
 });
-
-export default createContainer(() => {
-  return {
-    users: Users.find({}).fetch(),
-  };
-}, Main);
 
 export default Main;
