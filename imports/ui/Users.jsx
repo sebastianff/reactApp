@@ -11,13 +11,10 @@ export class UsersList extends Component {
   }
 
   render() {
-    return (
-      <div className="container">
-
-        <ul>
-          {this.renderUsers()}
-        </ul>
-      </div>
+    return(
+      <ul>
+        {this.renderUsers()}
+      </ul>
     );
   }
 }

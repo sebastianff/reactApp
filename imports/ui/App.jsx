@@ -57,7 +57,7 @@ const Main = React.createClass({
   },
 
   submitForm(data) {
-  	Users.insert(data);
+  	Meteor.call('users.insert', data);
   },
 
   notifyFormError(data) {
