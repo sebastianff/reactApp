@@ -2,6 +2,15 @@ import React, { Component, PropTypes } from 'react';
 import { Mongo } from 'meteor/mongo';
 import { Users }from '../collection.js';
 import { createContainer } from 'meteor/react-meteor-data';
+import {List, ListItem} from 'material-ui/List';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Avatar from 'material-ui/Avatar';
+import ContentInbox from 'material-ui/svg-icons/content/inbox';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import FlatButton from 'material-ui/FlatButton';
+
+
+
 
 export class UsersList extends Component {
   renderUsers() {
@@ -12,9 +21,11 @@ export class UsersList extends Component {
 
   render() {
     return(
-      <ul>
+      <MuiThemeProvider>
+      <List>
         {this.renderUsers()}
-      </ul>
+      </List>
+      </MuiThemeProvider>
     );
   }
 }
@@ -26,7 +37,13 @@ UsersList.propTypes = {
 export default class SingleUser extends Component {
   render() {
     return (
-      <li>{this.props.users.name} - {this.props.users.email} - {this.props.users.age}</li>
+      <Card>
+    <CardText>
+      <h1>Name: {this.props.users.name}</h1>
+      <h3>Email: {this.props.users.email}</h3>
+      <p>Age: {this.props.users.age}</p>
+    </CardText>
+</Card>
     );
   }
 }
