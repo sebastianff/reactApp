@@ -2,10 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { Mongo } from 'meteor/mongo';
 import { Users }from '../collection.js';
 import { createContainer } from 'meteor/react-meteor-data';
-import {List, ListItem} from 'material-ui/List';
+import {List} from 'material-ui/List';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import Avatar from 'material-ui/Avatar';
-import ContentInbox from 'material-ui/svg-icons/content/inbox';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 
@@ -38,12 +36,15 @@ export default class SingleUser extends Component {
   render() {
     return (
       <Card>
-    <CardText>
-      <h1>Name: {this.props.users.name}</h1>
-      <h3>Email: {this.props.users.email}</h3>
-      <p>Age: {this.props.users.age}</p>
-    </CardText>
-</Card>
+        <CardText>
+          <h1>Name: {this.props.users.name}</h1>
+          <h3>Email: {this.props.users.email}</h3>
+          <p>Age: {this.props.users.age}</p>
+        </CardText>
+        <CardActions>
+          <a href="/"><FlatButton label="Back" /></a>
+        </CardActions>
+      </Card>
     );
   }
 }
