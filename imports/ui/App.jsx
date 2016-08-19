@@ -58,6 +58,7 @@ const Main = React.createClass({
 
   submitForm(data) {
   	Meteor.call('users.insert', data);
+    FlowRouter.go('/usersList');
   },
 
   notifyFormError(data) {
